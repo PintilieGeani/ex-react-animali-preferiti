@@ -38,7 +38,7 @@
     </script> -->
 
     <!-- MILESTONE 2 -->
-
+    <!-- 
     <script type="text/babel">
         
         
@@ -71,6 +71,170 @@
                 
             )
         }
+    </script> -->
+
+    <!-- MILESTONE 3 -->
+
+
+
+    <!-- <script type="text/babel">
+
+
+
+        const ListaApp = () => {
+            const { useState } = React;
+            const [animal, setAnimal] = useState([])
+            const [show, setShow] = useState(false)
+            const [newAnimal, setNewAnimal] = useState("");
+
+            const mostraModale = () => setShow(true)
+            const chiudiModale = () => {
+                setShow(false)
+                setNewAnimal("")
+            }
+            const handleSubmit = (e) => {
+                e.preventDefault()
+                console.log(`${newAnimal} è stato aggiunto alla lista`)
+                setAnimal([...animal, newAnimal])
+                setNewAnimal("")
+                setShow(false)
+            }
+
+            function Modal({
+                title,
+                content,
+                show = false,
+                onClose = () => { },
+                onConfirm = handleSubmit
+            }) {
+                return show && ReactDOM.createPortal(
+                    <div className="modal-container">
+                        <div className="modal">
+                            <h2>{title}</h2>
+                            <div>{content}</div>
+                            <div>
+                                <button onClick={onConfirm}>Aggiungi</button>
+                                <button onClick={onClose}>Annulla</button>
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
+                )
+            }
+
+            return (
+                <div>
+                    <button onClick={mostraModale}>Aggingi il tuo animale Preferito</button>
+                    <details>
+                        <summary>
+                            <strong>Animali</strong>
+                        </summary>
+
+                        <ul>
+                            {animal.map((curAnimal) => (
+                                <li key={curAnimal}>{curAnimal}</li>
+                            ))}
+                        </ul>
+
+
+                    </details>
+
+                    <Modal
+                        title="Aggingi il tuo animale"
+                        content={
+                            <form>
+                                <input
+                                    type="text"
+                                    value={newAnimal}
+                                    onChange={(e) => setNewAnimal(e.target.value)}
+                                    autoFocus
+                                />
+
+                            </form>
+                        }
+                        show={show}
+                        onClose={chiudiModale}
+                    />
+                </div>
+            )
+        }
+    </script> -->
+
+    <!-- BONUS -->
+
+    <script type="text/babel">
+        const ListaApp = () => {
+            const animalName = "dog"
+            const apiUrl = `http://localhost:3333/animals?search=${search}`
+            const { useState, useEffect } = React;
+
+            const [animale, setAnimale] = useState([])
+            const [search, setSearch] = useState("");
+
+            const fetchUrl = async (url) => {
+                const response = await fetch(url)
+                const result = await response.json();
+
+                return result
+            }
+
+            useEffect(() => {
+                const getAnimal = async () => {
+                    try {
+                        const data = await fetchUrl(apiUrl)
+                        setAnimale(data)
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+
+                getAnimal()
+
+            }, [])
+
+            console.log("il tuo animale", animale)
+
+            return (
+                <>
+                    <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        console.log("Hai cercato:", search);
+                        try {
+                            const data = await fetchUrl(`http://localhost:3333/animals?search=${search}`);
+                            setAnimale(data);
+                        } catch (error) {
+                            console.log("Errore nella fetch:", error);
+                        }
+                    }}>
+                        <input
+                            type="text"
+                            placeholder="Scrivi qualcosa..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <button type="submit">Cerca</button>
+                    </form>
+
+                    {
+                        animale && animale.length > 0 ? (
+                            animale.map((curAnimal, index) => (
+                                <div className="card" key={index}>
+                                    <div className="card-text">
+                                        <p><strong>Nome: </strong> {curAnimal.name} </p>
+                                        <p><strong>Descrizione:</strong>{curAnimal.description}</p>
+                                    </div>
+                                    <img className="card-image" src="https://placehold.co/300" alt="Immagine dell'animale" />
+                                </div>
+                            ))
+                        ) : (
+                            <p>Animale non trovato</p>
+                        )
+                    }
+                </>
+            )
+
+        }
+
     </script>
 
     <!-- Script dove prendo l'elemento "lista animali" e lo imposto come root della mia ReactApp -->
