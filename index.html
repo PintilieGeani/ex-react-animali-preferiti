@@ -13,8 +13,10 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- MILESTONE 1 -->
+
     <!-- Script dove creo il mio componente lista, con map su un array -->
-    <script type="text/babel">
+    <!-- <script type="text/babel">
         const ListaApp = () => {
             // Array di animali
             const animali = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"]
@@ -31,6 +33,42 @@
             ))}
                     </ul>
                 </details>
+            )
+        }
+    </script> -->
+
+    <!-- MILESTONE 2 -->
+
+    <script type="text/babel">
+        
+        
+        const ListaApp = () => {
+
+            const { useState } = React;
+            const animalsChoices = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"];
+            const [animal, setAnimal] = useState([])
+
+            const aggiungiAnimali = () =>{
+                setAnimal(
+                    [...animal, animalsChoices[(Math.floor(Math.random() * animalsChoices.length))]]
+                )
+            }
+
+            return(
+                <div>
+                    <button onClick={aggiungiAnimali}>Aggiungi animali</button>
+                    <details>
+                    <summary>
+                        <strong>Animali</strong>
+                    </summary>
+                    <ul>
+                        {animal.map((curAnimal) => (
+                            <li key= {curAnimal}>{curAnimal}</li>
+            ))}
+                    </ul>
+                </details>
+                 </div>
+                
             )
         }
     </script>
