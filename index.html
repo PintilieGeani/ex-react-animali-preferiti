@@ -1,0 +1,62 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I miei animali Preferiti</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- CDN di react -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Script dove creo il mio componente lista, con map su un array -->
+    <script type="text/babel">
+        const ListaApp = () => {
+            // Array di animali
+            const animali = ["Cane", "Gatto", "Pappagallo", "Cavallo", "Panda"]
+
+            return (
+                // Creo il mio elemento details con il titolo ed un elemento ul dove faccio il map sul array di animali
+                <details>
+                    <summary>
+                        <strong>Animali</strong>
+                    </summary>
+                    <ul>
+                        {animali.map((curAnimal) => (
+                            <li>{curAnimal}</li>
+            ))}
+                    </ul>
+                </details>
+            )
+        }
+    </script>
+
+    <!-- Script dove prendo l'elemento "lista animali" e lo imposto come root della mia ReactApp -->
+    <script type="text/babel">
+        const { createRoot } = ReactDOM;
+        const lista = document.querySelector(".lista-animali")
+        const root = createRoot(lista)
+        root.render(<ListaApp />)
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>I miei animali Preferiti</h1>
+    </header>
+    <main>
+        <figure>
+            <img src="https://picsum.photos/400/300" alt="Immagine Casuale">
+        </figure>
+        <div class="lista-animali"></div>
+    </main>
+    <footer>
+        <p>Creato con amore da... un collega sbadato! 🐾</p>
+    </footer>
+</body>
+
+</html>
